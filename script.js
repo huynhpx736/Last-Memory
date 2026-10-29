@@ -8,7 +8,7 @@ const CREW = [
     gender: "female",
     type: "boss",
     accent: "#f6d365",
-    bio: "Chị đại tối cao của văn phòng. Một ánh nhìn đủ khiến KPI tự kiểm điểm",
+    bio: "Chị đại tối cao của văn phòng. Một ánh nhìn đủ khiến các máy cày KPI tự kiểm điểm",
     // một câu hỏi nhẹ nhàng đủ làm cả team mở lại 12 file Excel. Quyền lực được đo bằng số lần câu 'chị nhờ em chút nhé' vang lên.",
     quote: "Mọi người ơi, chị nói cái này một chút nhé…"
   },

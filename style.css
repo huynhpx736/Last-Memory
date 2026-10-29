@@ -243,3 +243,176 @@
     width: 160px;
   }
 }
+
+
+/* ===== LÌ XÌ CUỐI CA ===== */
+.lixi-section {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 24px;
+  text-align: center;
+}
+
+.lixi-content {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.lixi-message {
+  max-width: 580px;
+  margin: 24px auto 36px;
+  color: var(--text-muted, #aaa);
+  line-height: 1.9;
+}
+
+.lixi-message strong {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--accent, #e9ff70);
+}
+
+.lixi-card {
+  width: min(100%, 420px);
+  margin: 0 auto;
+  padding: 22px;
+  text-align: center;
+  background: rgba(15, 20, 28, 0.94);
+  border: 1px solid rgba(233, 255, 112, 0.35);
+  border-radius: 14px;
+  box-shadow:
+    0 0 35px rgba(233, 255, 112, 0.08),
+    inset 0 0 25px rgba(233, 255, 112, 0.025);
+}
+
+.lixi-card-header,
+.lixi-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #89919e;
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.lixi-status {
+  color: #a9f7b0;
+}
+
+.lixi-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: #70ff91;
+  box-shadow: 0 0 10px #70ff91;
+}
+
+.lixi-qr-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 270px);
+  aspect-ratio: 1;
+  margin: 28px auto 18px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.lixi-qr {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.qr-corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: #e9ff70;
+  border-style: solid;
+}
+
+.qr-corner.top-left {
+  top: -5px;
+  left: -5px;
+  border-width: 3px 0 0 3px;
+}
+
+.qr-corner.top-right {
+  top: -5px;
+  right: -5px;
+  border-width: 3px 3px 0 0;
+}
+
+.qr-corner.bottom-left {
+  bottom: -5px;
+  left: -5px;
+  border-width: 0 0 3px 3px;
+}
+
+.qr-corner.bottom-right {
+  right: -5px;
+  bottom: -5px;
+  border-width: 0 3px 3px 0;
+}
+
+.lixi-scan-text {
+  margin: 18px 0 8px;
+  color: #e9ff70;
+  font-family: monospace;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.lixi-caption {
+  margin: 0 auto 22px;
+  color: #a4aab5;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.lixi-link {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+}
+
+.lixi-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lixi-closing {
+  margin-top: 28px;
+  color: #9ca3af;
+  font-size: 13px;
+  font-style: italic;
+}
+
+@media (max-width: 480px) {
+  .lixi-section {
+    padding: 70px 16px;
+  }
+
+  .lixi-card {
+    padding: 16px;
+  }
+
+  .lixi-card-header,
+  .lixi-footer {
+    font-size: 9px;
+  }
+
+  .lixi-qr-frame {
+    width: min(100%, 240px);
+  }
+}
