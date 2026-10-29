@@ -1,6 +1,6 @@
-# THE LAST SHIFT.exe — Cinematic Landing Page
+# THE LAST MEMORY.exe — Cinematic Landing Page
 
-Một landing page kỷ niệm ngày nghỉ việc theo phong cách trailer phim: nền tối, neon xanh/hồng, hiệu ứng cuộn, thống kê chạy số, hồ sơ 7 đồng nghiệp, boss deadline tương tác và credit cuối phim.
+Một landing page kỷ niệm ngày nghỉ việc theo phong cách trailer phim: nền tối, neon xanh/hồng, hiệu ứng cuộn, thống kê chạy số, hồ sơ BẠN và 6 đồng nghiệp, boss deadline tương tác và credit cuối phim.
 
 ## Chạy trên máy
 
