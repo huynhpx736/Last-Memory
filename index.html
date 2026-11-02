@@ -419,9 +419,9 @@
       //thêm dòng chữ nhỏ dưới cùng website (Ưng ý: "Chúc các bạn một ngày vui vẻ và đầy yêu thương!"
       ctx.save();
       ctx.font = '16px Arial';
-      // ctx.fillStyle = 'rgba(255, 105, 180, 0.8)'; // hồng nhạt
+      ctx.fillStyle = 'rgba(255, 105, 180, 0.8)'; // hồng nhạt
       //màu đen
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; // đen nhạt
+      // ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; // đen nhạt
       ctx.textAlign = 'center';
       ctx.fillText('Website sẽ trở lại ban đầu sau:', W / 2, H - 20);
       // Làm đồng hồ đếm ngược đến ngày 03/11/2026 00:00:00
@@ -438,7 +438,7 @@
       } else {
         ctx.fillText('Đã đến ngày trở lại!', W / 2, H - 5);
       }
-      
+
       ctx.restore();
       requestAnimationFrame(animate);
     }
