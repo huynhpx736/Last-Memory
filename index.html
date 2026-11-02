@@ -2,13 +2,28 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0d14">
-  <meta name="description" content="THE LAST MEMORY.exe — một bộ phim sử thi về Excel, KPI và ngày cuối cùng.">
+  <meta name="description" content="THE LAST MEMORY.exe — một bộ phim sử thi về Excel, KPI và ngày cuối cùng."> -->
   <title>THE LAST MEMORY.exe — The Final Spreadsheet</title>
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: rgb(231, 238, 204); /* ✅ Nền trắng */
+    }
+    canvas {
+      display: block;
+    }
+  </style>
 </head>
 <body>
+  <template>
   <div class="noise" aria-hidden="true"></div>
   <div class="progress"><i id="scrollProgress"></i></div>
   <nav class="nav">
@@ -274,5 +289,164 @@
   <dialog id="crewDialog" class="crew-dialog"><button id="closeDialog" class="close-dialog" aria-label="Đóng">×</button><p id="dialogRole" class="kicker">EMPLOYEE FILE // CLASSIFIED</p><div id="dialogAvatar" class="dialog-avatar">01</div><h2 id="dialogName">THE LEGEND</h2><p id="dialogTitle" class="dialog-title"></p><p id="dialogBio" class="dialog-bio"></p><div class="dialog-quote" id="dialogQuote"></div><div class="dialog-footer">FILE STATUS: <b>TOO LEGENDARY TO DELETE</b></div></dialog>
   <div id="toast" class="toast" role="status"></div>
   <script src="script.js"></script>
+  </template>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let W = window.innerWidth;
+    let H = window.innerHeight;
+    canvas.width = W;
+    canvas.height = H;
+
+    window.addEventListener('resize', () => {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    });
+
+    // ================== VẼ TRÁI TIM LỚN Ở GIỮA ==================
+    function drawBigHeart(cx, cy, scale) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(scale, scale);
+      ctx.beginPath();
+      ctx.moveTo(0, -20);
+      ctx.bezierCurveTo(25, -40, 55, -10, 0, 30);
+      ctx.bezierCurveTo(-55, -10, -25, -40, 0, -20);
+      ctx.fillStyle = 'red';
+      ctx.shadowBlur = 30;
+      ctx.shadowColor = 'red';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawCenterText(cx, cy) {
+  ctx.save();
+  ctx.globalAlpha = 1;                      // chắc chắn không bị alpha từ nơi khác
+  ctx.globalCompositeOperation = 'source-over';
+  const size = Math.min(W, H) * 0.06;       // to hơn chút
+  // ctx.font = `bold ${size}px "Georgia", serif`;
+  // Dùng font có chân để trông lãng mạn hơn
+  ctx.font = `bold italic ${size}px "Times New Roman", serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // Viền tối cho dễ đọc trên nền đỏ
+  ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+  ctx.lineWidth = Math.max(2, size * 0.08);
+  ctx.strokeText('Bye', cx, cy);
+
+  // Chữ màu trắng + glow nhẹ
+  ctx.fillStyle = 'rgba(255, 240, 245, 0.95)'; // hồng nhạt
+  ctx.shadowColor = 'rgba(255, 105, 180, 0.9)'; // hồng đậm
+  ctx.shadowBlur = 12;
+  ctx.fillText('Bye', cx, cy);
+  ctx.restore();
+}
+
+
+    // ================== TRÁI TIM NHỎ RƠI XUNG QUANH ==================
+    function drawSmallHeart(size) {
+      ctx.beginPath();
+      ctx.moveTo(0, -size / 3);
+      ctx.bezierCurveTo(size / 2, -size, size, -size / 4, 0, size);
+      ctx.bezierCurveTo(-size, -size / 4, -size / 2, -size, 0, -size / 3);
+      ctx.fillStyle = 'red';
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = 'red';
+      ctx.fill();
+    }
+
+    class FallingHeart {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * W;
+        this.y = Math.random() * -H;
+        this.size = Math.random() * 20 + 10;
+        this.vx = Math.random() * 1.5 - 0.75;
+        this.vy = Math.random() * 2 + 1;
+        this.alpha = Math.random() * 0.5 + 0.5;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rotation += this.rotationSpeed;
+        if (this.y > H + this.size || this.x < -50 || this.x > W + 50) {
+          this.reset();
+          this.y = -this.size;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.globalAlpha = this.alpha;
+        drawSmallHeart(this.size);
+        ctx.restore();
+      }
+    }
+
+    const smallHearts = [];
+    const HEART_COUNT = 150;
+    for (let i = 0; i < HEART_COUNT; i++) {
+      smallHearts.push(new FallingHeart());
+    }
+
+    // ================== ANIMATE ==================
+    function animate() {
+      ctx.clearRect(0, 0, W, H);
+
+      // 1️⃣ Vẽ trái tim lớn + chữ ở giữa trước
+      const cx = W / 2;
+      const cy = H / 2;
+      const bigScale = Math.min(W, H) / 350; // Tăng để to hơn
+      drawBigHeart(cx, cy, bigScale * 5);
+      drawCenterText(cx, cy);
+
+      // 2️⃣ Vẽ các trái tim nhỏ rơi xung quanh
+      for (const h of smallHearts) {
+        h.update();
+        h.draw();
+      }
+      //thêm dòng chữ nhỏ dưới cùng website (Ưng ý: "Chúc các bạn một ngày vui vẻ và đầy yêu thương!"
+      ctx.save();
+      ctx.font = '16px Arial';
+      // ctx.fillStyle = 'rgba(255, 105, 180, 0.8)'; // hồng nhạt
+      //màu đen
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; // đen nhạt
+      ctx.textAlign = 'center';
+      ctx.fillText('Website sẽ trở lại ban đầu sau:', W / 2, H - 20);
+      // Làm đồng hồ đếm ngược đến ngày 03/11/2026 00:00:00
+      const targetDate = new Date('2026-11-03T00:00:00');
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        const countdownText = `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`;
+        ctx.fillText(countdownText, W / 2, H - 5);
+      } else {
+        ctx.fillText('Đã đến ngày trở lại!', W / 2, H - 5);
+      }
+      
+      ctx.restore();
+      requestAnimationFrame(animate);
+    }
+  
+    animate();
+  </script>
 </body>
 </html>
+
+
+
